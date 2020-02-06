@@ -1,6 +1,7 @@
 const mongoose  =   require('mongoose')
 
 var kpiSchema  =  new mongoose.Schema({
+    // id: Number,
     task: String,
     start_date: {  
         type : Date,

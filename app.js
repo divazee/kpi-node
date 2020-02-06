@@ -9,7 +9,8 @@ mongoose.connect(
     'mongodb://localhost/kpi_tracker',
     {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        useFindAndModify: false
     });
 app.use(cors());
 app.use(bodyParser.json());
@@ -24,7 +25,7 @@ app.post('/kpis', async function(req, res){
         
         res.send(kpiObject);
     }catch(e){
-        console.log(e);
+        console.log('error', e);
         res.status(422).send(e)
     }
 })
@@ -36,15 +37,30 @@ app.get('/kpis', function(req, res){
     })
 })
 
-app.put('/kpis/:id', function(req, res){
-    // const { task, start_date, supposed_end_date, stage, status, percent, end_date } = req.body;
-    const status = KPI.findOneAndUpdate(req.params.id, req.body.status, function(err, newPercent){
-        console.log("req.body.status1", req.body.status)
-        err ? res.send("error", err) :
-        // console.log("new status", status)
-        console.log("req.body.status2", req.body.status)
-        // res.send(status)    
+app.get('/kpis/:id/edit', function(req, res){
+    KPI.findById(req.params.id, function(err, kpis){
+        err ? res.send(err) :
+        // console.log("edit route", kpis)
+        // console.log("edit req.params.id", req.params.id)
+        // res.send('kpis')
+        res.send(kpis)
     })
+})
+
+app.put('/kpis/:id', async function(req, res){
+    try {
+    // const { task, start_date, supposed_end_date, stage, status, percent, end_date } = req.body;
+        // const body = await KPI.findByIdAndUpdate(req.params.id, req.body, function(err, kpi){
+        const body = await KPI.findByIdAndUpdate(req.params.id, req.body,
+            {new: true} // return the just updated kpi
+        )
+        console.log("Success2: ", req.body)
+        res.send(body)
+        // res.status(200).json('ok')
+    }catch(e){
+        console.log("Error:::::", e.message);
+        res.status(422).send(e)
+    }
 })
 
 app.listen(5000, function(){
