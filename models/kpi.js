@@ -1,7 +1,6 @@
 const mongoose  =   require('mongoose')
 
 var kpiSchema  =  new mongoose.Schema({
-    // id: Number,
     task: String,
     start_date: {  
         type : Date,
@@ -9,8 +8,8 @@ var kpiSchema  =  new mongoose.Schema({
     },
     supposed_end_date: {  
         type : Date, 
-        // default : Date.now
     },
+    rate: Number,
     stage: String,
     status: String,
     percent: Number,
