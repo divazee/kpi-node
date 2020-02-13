@@ -1,50 +1,17 @@
 const 
 express     = require('express'),
 router      = express.Router(),
-passport    = require('passport'),
 mongoose    = require('mongoose'),
 
 User        = require('../models/user')
 
-
-
-//handling user sign up
-router.post('/register', function(req, res){
-    req.body.username
-    req.body.password
-    User.register(
-        new User({username: req.body.username}), 
-        req.body.password, 
-        function(err, user){
-            if(err){
-                console.log("errror:::::::", err)
-            // } else {
-            //     console.log("something", user)
-                // return res.status(200).json('error')
-                // return res.render('register')
-            }
-            passport.authenticate('local')(req, res, function(){
-            // res.redirect('/secret')
-            console.log("auth error")
-            })
-        }
-    )
-    console.log("reqbody", req.body)
-    // return res.status(200).json('ok')
-    // res.send()
+router.post('/register', (req, res) => {
+    const user = new User({
+        _id: new mongoose.Schema.Types.ObjectId(),
+        email: req.body.email,
+        password:req.body.password
+    })
 })
-
-// login logic
-router.post('/login',
-    passport.authenticate('local', {
-        successRedirect: '/secret',
-        failureRedirect: '/login'
-    }), 
-    function(req, res){
-    // res.send('login')
-})
-
-
 
 
 
