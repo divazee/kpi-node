@@ -1,7 +1,8 @@
 var 
 express     = require('express'),
 router      = express.Router(),
-KPI         = require('../models/kpi')
+KPI         = require('../models/kpi'),
+checkAuth   = require('../middleware/check-auth')
 
 router.post('/', async function(req, res){
     try{
@@ -17,7 +18,7 @@ router.post('/', async function(req, res){
     }
 })
 
-router.get('/', function(req, res){
+router.get('/', checkAuth, function(req, res){
     KPI.find({}, function(err, kpis){
         err ? res.send(err) :
         res.send(kpis)
