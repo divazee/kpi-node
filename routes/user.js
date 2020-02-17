@@ -78,20 +78,13 @@ router.post('/login', (req, res) => {
 
 router.delete('/:id', (req, res) => {
     const id = req.params.id;
-    User.findOneAndRemove({ _id: id })
-        .exec()
-        .then(result => {
-            res.status(500).json({ message: 'User deleted' })
-        })
-        .catch(error => {
-            console.log("delete error::::::::::", err)
-            res.status(500).json({ error })
-        })
+    User.remove({ _id: id })
+    .exec()
+    .then(result => res.status(500).json({ message: 'User deleted' }))
+    .catch(error => {
+        console.log("delete error::::::::::", err)
+        res.status(500).json({ error })
+    })
 })
-
-
-
-
-
 
 module.exports = router;
