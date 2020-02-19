@@ -1,7 +1,11 @@
 const mongoose  =   require('mongoose')
 
 var kpiSchema  =  new mongoose.Schema({
-    task: String,
+    _id: mongoose.Schema.Types.ObjectId,
+    task: {
+        type: String,
+        required: true
+    },
     start_date: {  
         type : Date,
         default : Date.now
@@ -9,13 +13,21 @@ var kpiSchema  =  new mongoose.Schema({
     supposed_end_date: {  
         type : Date, 
     },
-    rate: Number,
+    rate: {
+        type: Number,
+        required: true
+    },
     stage: String,
     status: String,
     percent: Number,
     end_date: {  
         type : Date, 
         // default : Date.now
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 })
 

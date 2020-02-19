@@ -29,7 +29,7 @@ router.post('/register', (req, res) => {
                         .save()
                         .then(result => {
                             console.log("post result:::::::::", result)
-                            res.status(201).json({ message: 'User created' })
+                            res.status(201).json({ message: 'User created', result })
                         })
                         .catch(err => {
                             console.log("post error::::::::::", err)
@@ -85,6 +85,14 @@ router.delete('/:id', (req, res) => {
         console.log("delete error::::::::::", err)
         res.status(500).json({ error })
     })
+})
+
+router.get('/users', (req, res) => {
+    User.find()
+    .exec()
+    .then(users => res.status(200).json( users ))
+    .catch(error => res.status(500).json({ error }))
+
 })
 
 module.exports = router;
