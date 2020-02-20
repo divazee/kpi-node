@@ -17,6 +17,7 @@ var kpiSchema  =  new mongoose.Schema({
         type: Number,
         required: true
     },
+    comment: String,
     stage: String,
     status: String,
     percent: Number,

@@ -21,7 +21,8 @@ router.post('/', checkAuth, function(req, res){
                 rate: req.body.rate,
                 supposed_end_date: req.body.supposed_end_date,
                 status: req.body.status,
-                start_date: req.body.start_date
+                start_date: req.body.start_date,
+                comment: req.body.comment
 
             });
             console.log("object", kpi)
@@ -36,7 +37,8 @@ router.post('/', checkAuth, function(req, res){
                 rate: result.rate,
                 supposed_end_date: result.supposed_end_date,
                 status: result.status,
-                start_date: result.start_date
+                start_date: result.start_date,
+                comment: result.comment
             }
         }))
         .catch(error => {
