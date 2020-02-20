@@ -4,6 +4,7 @@ router      = express.Router(),
 mongoose    = require('mongoose'),
 bcrypt      = require('bcrypt'),
 jwt         = require('jsonwebtoken'),
+checkAuth   = require('../middleware/check-auth'),
 
 User        = require('../models/user')
 
@@ -22,6 +23,8 @@ router.post('/register', (req, res) => {
                     } else {
                         const user = new User({
                             _id: new mongoose.Types.ObjectId,
+                            first_name: req.body.firstname,
+                            last_name: req.body.lastname,
                             email: req.body.email,
                             password: hash
                         })
@@ -93,6 +96,15 @@ router.get('/users', (req, res) => {
     .then(users => res.status(200).json( users ))
     .catch(error => res.status(500).json({ error }))
 
+})
+
+router.get('/user', checkAuth, (req, res) => {
+    User.findById(req.userData.id)
+    .then(result => {
+        console.log("user", result)
+        res.status(200).json( result )
+    })
+    .catch(result => res.status(500).json({ message: 'User not found' }))
 })
 
 module.exports = router;
