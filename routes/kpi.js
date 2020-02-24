@@ -8,8 +8,6 @@ checkAuth   = require('../middleware/check-auth')
 
 router.post('/', checkAuth, function(req, res){
     User.findById(req.userData.id)
-    // User.findById(req.body.userId)
-    // console.log("object::::::::8", req.userData.id)
         .then(user => {
             if (!user) {
                 return res.status(404).json({ message: 'User not found' });
@@ -55,15 +53,8 @@ router.post('/', checkAuth, function(req, res){
 })
 
 router.get('/', checkAuth, function(req, res){
-// router.get('/', function(req, res){
     KPI.find({user : req.userData.id})
-        .then(kpis => {
-            res.send(kpis)
-            // res.status(200).json({
-            // // count: kpis.length,
-            // kpis
-            // })
-        })
+        .then(kpis => res.send(kpis))
         .catch(error => res.status(500).json({ error }))
     
     // KPI.find({}, function(err, kpis){
@@ -103,5 +94,17 @@ router.delete('/:id', async (req, res) => {
         res.status(422).send(e)
     }
 })
+
+// router.post('/date', (req, res) => {
+//     try{
+//         let kpiDate = KPI.create(req.body.end_date);  
+//         console.log("kpiDate", req.body.end_date)      
+//         console.log("kpiDate2", kpiDate)      
+//         res.send(kpiDate);
+//     } catch(e){
+//         console.log('error', e);
+//         res.status(422).send(e)
+//     }
+// })
 
 module.exports = router;
